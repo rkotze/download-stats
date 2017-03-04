@@ -19,13 +19,15 @@
         background: transparent;
       }
       html, body { height: 100%; }
-      html { background-color: rgb(0, 120, 0); }
-      #root { background-color: #F0F0F0; min-height: 100%; }
+      html { background-color: #ededed; }
+      #root { min-height: 100%; margin: auto 0; }
       body { overflow-x: hidden; }
     </style>
 
     <!-- Start Single Page Apps for GitHub Pages -->
     <script type="text/javascript">
+      window.homeRoute = window.location.hostname.indexOf('localhost') > -1 ? '/' : '/download-stats/';
+
       (function(l) {
         if (l.search) {
           var q = {};
@@ -49,6 +51,20 @@
   <body>
     <div id="root"></div>
     <!-- single page app in bundle.js -->
-    <script src="/download-stats/build/bundle.js"></script>
+    <!-- <script src="/download-stats/build/bundle.js"></script> -->
+
+    <script type="text/javascript">
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)){ return; }
+        js = d.createElement(s); js.id = id;
+        js.onload = function(){
+            // remote script has loaded
+        };
+        js.src = homeRoute + "build/bundle.js"
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'bundle'));
+    </script>
+
   </body>
 </html>
