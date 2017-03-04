@@ -7,7 +7,7 @@ import Home from './components/Home';
 import PageNotFound from './components/PageNotFound';
 
 const routes = (
-  <Route path="/" mapMenuTitle="Home" component={App}>
+  <Route path="/download-stats/" mapMenuTitle="Home" component={App}>
     <IndexRoute component={Home} />
 
     <Route path="*" mapMenuTitle="Page Not Found" component={PageNotFound} />
