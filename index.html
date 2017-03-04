@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Download stats for packages.</title>
+    <meta name="description" content="Download stats">
+
+    <style>
+      html, body, div, span, a, p, ul, li, h1, code, nav {
+        margin: 0;
+        border: 0;
+        padding: 0;
+        box-sizing: inherit;
+        font: inherit;
+        text-decoration: inherit;
+        text-align: inherit;
+        color: inherit;
+        background: transparent;
+      }
+      html, body { height: 100%; }
+      html { background-color: rgb(0, 120, 0); }
+      #root { background-color: #F0F0F0; min-height: 100%; }
+      body { overflow-x: hidden; }
+    </style>
+
+    <!-- Start Single Page Apps for GitHub Pages -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search) {
+          var q = {};
+          l.search.slice(1).split('&').forEach(function(v) {
+            var a = v.split('=');
+            q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+          });
+          if (q.p !== undefined) {
+            window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + (q.p || '') +
+              (q.q ? ('?' + q.q) : '') +
+              l.hash
+            );
+          }
+        }
+      }(window.location))
+    </script>
+    <!-- End Single Page Apps for GitHub Pages -->
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- single page app in bundle.js -->
+    <script src="/build/bundle.js"></script>
+  </body>
+</html>
