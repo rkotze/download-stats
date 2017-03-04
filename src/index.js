@@ -14,7 +14,6 @@ const routes = (
   </Route>
 );
 
-
 render(
   <Router
     history={browserHistory}

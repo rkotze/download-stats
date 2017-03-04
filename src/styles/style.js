@@ -35,3 +35,4 @@ export default {
     margin: '3vh 0',
     lineHeight: '1.4',
   }
+}
