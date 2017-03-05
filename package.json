@@ -8,6 +8,7 @@
   "author": "Richard Kotze",
   "license": "MIT",
   "dependencies": {
+    "moment": "^2.17.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-interactive": "^0.4.0",

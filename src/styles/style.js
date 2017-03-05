@@ -34,5 +34,8 @@ export default {
   p: {
     margin: '3vh 0',
     lineHeight: '1.4',
+  },
+  downloadNumber: {
+    fontSize: '18px'
   }
 }

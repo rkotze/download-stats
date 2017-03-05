@@ -3,18 +3,19 @@ import Interactive from 'react-interactive';
 import { Link } from 'react-router';
 import s from '../styles/home.style';
 import superagentHOC from './superagent-hoc';
+import moment from 'moment';
 
 function Home() {
 
   return (
     <div>
-      <PackageMeta title="Joinable">
+      <PackageMeta title="Joinable" repoName="joinable">
         <FetchDownloads packageName="joinable" />
         <FetchDownloads packageName="joinable" period="last-week" />
         <FetchDownloads packageName="joinable" period="last-month" />
       </PackageMeta>
 
-      <PackageMeta title="Should Enzyme">
+      <PackageMeta title="Should Enzyme" repoName="should-enzyme">
         <FetchDownloads packageName="should-enzyme" />
         <FetchDownloads packageName="should-enzyme" period="last-week" />
         <FetchDownloads packageName="should-enzyme" period="last-month" />
@@ -25,10 +26,15 @@ function Home() {
 
 const FetchDownloads = superagentHOC(DataPointDisplay, 'https://api.npmjs.org/downloads');
 
-function PackageMeta ({children, title}) {
+function PackageMeta ({children, title, repoName}) {
   return (
       <div>
         <h3>{title}</h3>
+        <p>
+          <a style={s.link} href={`https://github.com/rkotze/${repoName}`} target="_blank">Github</a> |&nbsp;
+          <a style={s.link} href={`https://npmjs.com/package/${repoName}`} target="_blank">NPM</a> |&nbsp;
+          <Link style={s.link} to={`package/${repoName}`}>Details</Link>
+        </p>
         {children}
       </div>
     );
@@ -44,8 +50,10 @@ function DataPointDisplay({success, failure}) {
     const { downloads, start, end } = success;
 
     return <div>
-      <p style={s.p}>{start} - {end}</p>
-      <p style={s.p}>Downloads: <strong>{downloads}</strong></p>
+      <p style={s.p}>
+        <strong style={s.downloadNumber}>{downloads}</strong> downloads&nbsp;
+        {moment(start + ' 23:59:59', 'YYYY-MM-DD hh:mm:ss').fromNow()}
+      </p>
     </div>
   }
 
