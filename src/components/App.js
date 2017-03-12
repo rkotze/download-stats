@@ -9,38 +9,12 @@ const propTypes = {
 };
 
 function App({ children, routes }) {
-  function generateMapMenu() {
-    let path = '';
-
-    function nextPath(route) {
-      path += (
-        (path.slice(-1) === '/' ? '' : '/') +
-        (route.path === '/' ? '' : route.path)
-      );
-      return path;
-    }
-
-    return (
-      routes.filter(route => route.mapMenuTitle)
-        .map((route, index, array) => (
-          <span key={index}>
-            <Interactive
-              as={Link}
-              {...s.link}
-              to={nextPath(route)}
-            >{route.mapMenuTitle}</Interactive>
-            {(index + 1) < array.length && ' / '}
-          </span>
-        ))
-    );
-  }
-
 
   return (
     <div style={s.root}>
       <h1 style={s.title}>Download stats</h1>
       <nav style={s.mapMenu}>
-        {generateMapMenu()}
+        <Link to={homeRoute}>Home</Link>
       </nav>
       {children}
     </div>
