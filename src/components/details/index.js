@@ -1,18 +1,20 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import s from '../../styles/style';
 import superagentHoc from '../superagent-hoc';
 import moment from 'moment';
+import c3 from 'c3';
+import 'c3/c3.min.css';
 
 function Details({params}) {
   return (
     <div>
-    	<h2>{Capitalize(params.name)} over the past 30 days</h2>
+    	<h2>{capitalize(params.name)} for the last 30 days</h2>
     	<div><OneMonthPackage packageName={params.name} /></div>
     </div>
   );
 }
 
-function Capitalize(sentance) {
+function capitalize(sentance) {
 	return sentance.replace(/\b\w/g, word => word.toUpperCase());
 }
 
@@ -26,22 +28,69 @@ function PackageDownloadList({packageName, success, failure}){
 	if(success && failure === null){
 		const { downloads, start, end } = success;
 		return (<div>
-				<p style={s.p}>
-					Range: <em>{start}</em>-&nbsp;
-					<em>{end}</em>
+				<p>
+					<em>{moment(start).format('Do MMM YYYY')}</em> -&nbsp;
+					<em>{moment(end).format('Do MMM YYYY')}</em>
 				</p>
-				{downloads.reverse().map(function(download, i){
-					return <PackageData key={i} {...download} />
-				})}
+				<p style={s.p}>
+					Total: <strong>
+						{downloads.reduce(function(total, downloads, i){
+							return total + downloads.downloads;
+						}, 0)}
+					</strong>
+				</p>
+				<ChartBar downloads={downloads} />
 			</div>);
 	}
 
 	return (<div>Loading ...</div>);
 }
 
-function PackageData({day, downloads}){
-	return (<p><strong style={s.downloadNumber}>{downloads}</strong> downloads&nbsp;
-        {moment(day + ' 23:59:59', 'YYYY-MM-DD hh:mm:ss').fromNow()}</p>)
+class ChartBar extends Component {
+	constructor(){
+		super();
+	}
+
+	componentDidMount(){
+		const { downloads } = this.props;
+		let downloadData = ['downloads'].concat(extractPropValues(downloads, 'downloads'));
+		let xAxis = ['day'].concat(extractPropValues(downloads, 'day'));
+		var chart = c3.generate({
+        data: {
+        	x: 'day',
+          columns: [
+            downloadData,
+            xAxis
+          ],
+          type: 'bar'
+        },
+        axis : {
+        	x:{
+            type : 'timeseries',
+            tick: {
+                format: function (downloadDate) { return moment(downloadDate).format('Do MMM'); }
+            }
+	        }
+		    },
+        bar: {
+          width: {
+            ratio: 0.9,
+          },
+        }
+      });
+	}
+
+	render(){
+		return(
+      <div id="chart"></div>
+		);
+	}
 }
+
+function extractPropValues(downloads, prop){
+	return downloads.map(function(download) {
+		return download[prop];
+	});
+};
 
 export default Details;
