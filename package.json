@@ -1,6 +1,6 @@
 {
   "name": "package-stats",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple app to get download stats of packages",
   "scripts": {
     "start": "webpack-dev-server -d --inline --host 0.0.0.0 --history-api-fallback --progress"
