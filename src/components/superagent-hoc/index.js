@@ -1,7 +1,25 @@
 import request from 'superagent';
 import React, { Component } from 'react';
 
-export default function superagentHOC(ToWrapper, url, httpMethod = 'GET') {
+
+export default function superagentHOC(MyComponent) {
+
+	function NpmFetch(props) {
+		const { queryType, period, packageName } = props;
+		return <MyComponent {...props} queryPath={`/${queryType}/${period}/${packageName}`} />
+		// return withFetch(MyComponent, `${url}/${queryType}/${period}/${packageName}`);
+	}
+
+	NpmFetch.defaultProps = {
+		queryType: 'point', //range
+		period: 'last-day', //last-week, last-month, date range 2014-01-01:2014-01-31
+		packageName: ''
+	}
+
+	return NpmFetch;
+}
+
+export function withFetch(MyComponent, apiUrl, httpMethod = 'GET') {
 	return class extends Component {
 		constructor(props) {
 			super();
@@ -11,16 +29,9 @@ export default function superagentHOC(ToWrapper, url, httpMethod = 'GET') {
 			}
 		}
 
-		static defaultProps = {
-			queryType: 'point', //range
-			period: 'last-day', //last-week, last-month, date range 2014-01-01:2014-01-31
-			packageName: ''
-		}
-
 		componentDidMount() {
-			const {queryType, period, packageName} = this.props;
-
-			request(httpMethod, `${url}/${queryType}/${period}/${packageName}`)
+			const { queryPath } = this.props;
+			request(httpMethod, `${apiUrl}${queryPath}`)
 			.then(
 				(response) => {
 					this.setState({
@@ -36,7 +47,7 @@ export default function superagentHOC(ToWrapper, url, httpMethod = 'GET') {
 
 		render(){
 			return (
-				<ToWrapper {...this.props} success={this.state.success} failure={this.state.failure} />
+				<MyComponent {...this.props} success={this.state.success} failure={this.state.failure} />
 				);
 		}
 	}

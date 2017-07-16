@@ -2,7 +2,7 @@ import React from 'react';
 import Interactive from 'react-interactive';
 import { Link } from 'react-router';
 import s from '../styles/home.style';
-import superagentHOC from './superagent-hoc';
+import superagentHOC, { withFetch } from './superagent-hoc';
 import moment from 'moment';
 
 function Home() {
@@ -24,7 +24,7 @@ function Home() {
   );
 }
 
-const FetchDownloads = superagentHOC(DataPointDisplay, 'https://api.npmjs.org/downloads');
+const FetchDownloads = superagentHOC(withFetch(DataPointDisplay, 'https://api.npmjs.org/downloads'));
 
 function PackageMeta ({children, title, repoName}) {
   return (
