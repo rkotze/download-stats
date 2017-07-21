@@ -17,6 +17,7 @@
       // https://username.github.io/repo-name/one/two?a=b&c=d#qwe becomes
       // https://username.github.io/repo-name/?p=/one/two&q=a=b~and~c=d#qwe
       // Otherwise, leave pathPrefix as false.
+      window.homeRoute = window.location.hostname.indexOf('localhost') > -1 ? '/' : '/download-stats/';
       var pathPrefix = true;
 
       var l = window.location;
