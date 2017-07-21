@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import s from '../../styles/style';
-import { withNpmApi } from '../superagent-hoc';
+import { withPropsToPath, withFetch } from '../superagent-hoc';
+import { compose } from 'joinable';
 import moment from 'moment';
 import c3 from 'c3';
 import 'c3/c3.min.css';
@@ -18,11 +19,13 @@ function capitalize(sentance) {
 	return sentance.replace(/\b\w/g, word => word.toUpperCase());
 }
 
-const OneMonthPackage = withNpmApi(PackageDownloadList,'https://api.npmjs.org/downloads');
-OneMonthPackage.defaultProps = {
-	queryType: 'range',
-	period: 'last-month',
-};
+const OneMonthPackage = compose(
+	withPropsToPath({
+		queryType: 'range', //range
+    period: 'last-month', //last-week, last-month, date range 2014-01-01:2014-01-31
+    packageName: ''}),
+  withFetch('https://api.npmjs.org/downloads')
+  )(PackageDownloadList);
 
 function PackageDownloadList({packageName, success, failure}){
 	if(success && failure === null){

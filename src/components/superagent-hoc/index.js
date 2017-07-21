@@ -2,34 +2,28 @@ import request from 'superagent';
 import React, { Component } from 'react';
 import joinable from 'joinable';
 
-export function withNpmApi(MyComponent) {
-
-	function NpmFetch(props) {
-		const { queryType, period, packageName } = props;
-		return <MyComponent {...props} queryPath={`${queryType}/${period}/${packageName}`} />
+export function withPropsToPath(propsToJoin) {
+	function joinableSegments(props, definedProps){
+		let segments = [];
+		for(let prop in definedProps){
+			segments.push(props[prop] || definedProps[prop]);
+		}
+		segments.push({ separator: '/' });
+		return segments;
 	}
 
-	NpmFetch.defaultProps = {
-		queryType: 'point', //range
-		period: 'last-day', //last-week, last-month, date range 2014-01-01:2014-01-31
-		packageName: ''
+	return function(MyComponent) {
+		return function QueryPathJoin(props) {
+			return (
+				<MyComponent 
+				{...props} 
+				queryPath={joinable.apply(
+					null, 
+					joinableSegments(props, propsToJoin))} 
+				/>
+			);
+		}
 	}
-
-	return NpmFetch;
-}
-
-export function withGithubApi(MyComponent) {
-
-	function GithubFetch(props) {
-		const { queryType, period, packageName } = props;
-		return <MyComponent {...props} queryPath={packageName} />
-	}
-
-	GithubFetch.defaultProps = {
-		packageName: ''
-	}
-
-	return GithubFetch;
 }
 
 export function withFetch(apiUrl, httpMethod = 'GET') {

@@ -2,8 +2,9 @@ import React from 'react';
 import Interactive from 'react-interactive';
 import { Link } from 'react-router';
 import s from '../styles/home.style';
-import { withNpmApi, withGithubApi, withFetch } from './superagent-hoc';
+import { withPropsToPath, withFetch } from './superagent-hoc';
 import moment from 'moment';
+import { compose } from 'joinable';
 
 function Home() {
 
@@ -26,9 +27,21 @@ function Home() {
   );
 }
 
-const FetchDownloads = withNpmApi(withFetch('https://api.npmjs.org/downloads')(DataPointDisplay));
+const FetchDownloads = compose(
+  withPropsToPath({
+    queryType: 'point', //range
+    period: 'last-day', //last-week, last-month, date range 2014-01-01:2014-01-31
+    packageName: ''
+  }), 
+  withFetch('https://api.npmjs.org/downloads')
+  )(DataPointDisplay);
 
-const RepoInfo = withGithubApi(withFetch('https://api.github.com/repos/rkotze')(RepoDisplay));
+const RepoInfo = compose(
+  withPropsToPath({
+    packageName: ''
+  }), 
+  withFetch('https://api.github.com/repos/rkotze')
+  )(RepoDisplay);
 
 function PackageMeta ({children, title, repoName}) {
   return (
