@@ -6,6 +6,7 @@ import { withPropsToPath, withFetch } from './superagent-hoc';
 import moment from 'moment';
 import { compose } from 'joinable';
 import RepoInfo from './git-repo';
+import withLoading from './with-loading';
 
 function Home() {
 
@@ -38,7 +39,8 @@ const FetchDownloads = compose(
     period: 'last-day', //last-week, last-month, date range 2014-01-01:2014-01-31
     packageName: ''
   }), 
-  withFetch('https://api.npmjs.org/downloads')
+  withFetch('https://api.npmjs.org/downloads'),
+  withLoading()
   )(DataPointDisplay);
 
 // investigate cross-origin issues
@@ -46,7 +48,8 @@ const HexFetchDownloads = compose(
   withPropsToPath({
     packageName: ''
   }), 
-  withFetch('https://hex.pm/api/packages')
+  withFetch('https://hex.pm/api/packages'),
+  withLoading()
   )(HexDataPointDisplay);
 
 function PackageMeta ({children, title, repoName}) {
@@ -64,52 +67,30 @@ function PackageMeta ({children, title, repoName}) {
 }
 
 function HexDataPointDisplay({success, failure}) {
-  if(success === null && failure === null){
-    return <p>Loading...</p>
-  }
+  const { all, week, day } = success.downloads;
 
-  if(success && failure === null){
-
-    const { all, week, day } = success.downloads;
-
-    return <div>
-      <p style={s.p}>
-        <strong style={s.downloadNumber}>{day}</strong> yesterday downloads
-      </p>
-      <p style={s.p}>
-        <strong style={s.downloadNumber}>{week}</strong> 7 days downloads
-      </p>
-      <p style={s.p}>
-        <strong style={s.downloadNumber}>{all}</strong> all time downloads
-      </p>
-    </div>
-  }
-
-  console.log(failure);
-
-  return <p>Failed to fetch data.</p>
+  return <div>
+    <p style={s.p}>
+      <strong style={s.downloadNumber}>{day}</strong> yesterday downloads
+    </p>
+    <p style={s.p}>
+      <strong style={s.downloadNumber}>{week}</strong> 7 days downloads
+    </p>
+    <p style={s.p}>
+      <strong style={s.downloadNumber}>{all}</strong> all time downloads
+    </p>
+  </div>
 }
 
-function DataPointDisplay({success, failure}) {
-  if(success === null && failure === null){
-    return <p>Loading...</p>
-  }
+function DataPointDisplay({success}) {
+  const { downloads, start, end } = success;
 
-  if(success && failure === null){
-
-    const { downloads, start, end } = success;
-
-    return <div>
-      <p style={s.p}>
-        <strong style={s.downloadNumber}>{downloads}</strong> downloads&nbsp;
-        {moment(start + ' 23:59:59', 'YYYY-MM-DD hh:mm:ss').fromNow()}
-      </p>
-    </div>
-  }
-
-  console.log(failure);
-
-  return <p>Failed to fetch data.</p>
+  return <div>
+    <p style={s.p}>
+      <strong style={s.downloadNumber}>{downloads}</strong> downloads&nbsp;
+      {moment(start + ' 23:59:59', 'YYYY-MM-DD hh:mm:ss').fromNow()}
+    </p>
+  </div>
 }
 
 export default Home;
