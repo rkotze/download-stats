@@ -23,6 +23,11 @@ function Home() {
         <FetchDownloads packageName="should-enzyme" period="last-week" />
         <FetchDownloads packageName="should-enzyme" period="last-month" />
       </PackageMeta>
+
+      <PackageMeta title="Eye drops" repoName="eye_drops">
+        <RepoInfo packageName="eye_drops" />
+        <HexFetchDownloads packageName="eye_drops" />
+      </PackageMeta>
     </div>
   );
 }
@@ -35,6 +40,13 @@ const FetchDownloads = compose(
   }), 
   withFetch('https://api.npmjs.org/downloads')
   )(DataPointDisplay);
+
+const HexFetchDownloads = compose(
+  withPropsToPath({
+    packageName: ''
+  }), 
+  withFetch('https://hex.pm/api/packages')
+  )(HexDataPointDisplay);
 
 const RepoInfo = compose(
   withPropsToPath({
@@ -55,6 +67,33 @@ function PackageMeta ({children, title, repoName}) {
         {children}
       </div>
     );
+}
+
+function HexDataPointDisplay({success, failure}) {
+  if(success === null && failure === null){
+    return <p>Loading...</p>
+  }
+
+  if(success && failure === null){
+
+    const { all, week, day } = success.downloads;
+
+    return <div>
+      <p style={s.p}>
+        <strong style={s.downloadNumber}>{day}</strong> yesterday downloads
+      </p>
+      <p style={s.p}>
+        <strong style={s.downloadNumber}>{week}</strong> 7 days downloads
+      </p>
+      <p style={s.p}>
+        <strong style={s.downloadNumber}>{all}</strong> all time downloads
+      </p>
+    </div>
+  }
+
+  console.log(failure);
+
+  return <p>Failed to fetch data.</p>
 }
 
 function DataPointDisplay({success, failure}) {
