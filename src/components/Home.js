@@ -28,6 +28,7 @@ function Home() {
 
       <PackageMeta title="Eye drops" repoName="eye_drops">
         <RepoInfo packageName="eye_drops" />
+        <HexFetchDownloads packageName="eye_drops" />
       </PackageMeta>
     </div>
   );
@@ -74,10 +75,10 @@ function HexDataPointDisplay({success, failure}) {
       <strong style={s.downloadNumber}>{day}</strong> yesterday downloads
     </p>
     <p style={s.p}>
-      <strong style={s.downloadNumber}>{week}</strong> 7 days downloads
+      <strong style={s.downloadNumber}>{week}</strong> downloads 7 days ago
     </p>
     <p style={s.p}>
-      <strong style={s.downloadNumber}>{all}</strong> all time downloads
+      <strong style={s.downloadNumber}>{all}</strong> downloads for all time
     </p>
   </div>
 }
