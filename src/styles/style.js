@@ -2,7 +2,8 @@ import React from 'react';
 
 const link = {
   normal: {
-    borderBottom: '1px dotted rgb(0, 168, 0)',
+    borderBottom: '1px dotted #c00',
+    color: '#c00'
   },
   hover: {
     borderBottom: '1px solid rgb(0, 168, 0)',
@@ -34,8 +35,5 @@ export default {
   p: {
     margin: '3vh 0',
     lineHeight: '1.4',
-  },
-  downloadNumber: {
-    fontSize: '18px'
   }
 }

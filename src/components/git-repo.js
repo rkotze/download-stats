@@ -16,8 +16,8 @@ function RepoDisplay({success}) {
   const { stargazers_count, forks_count } = success;
 
   return <div>
-    <p style={s.p}>
-      <label><i className="fa fa-star" aria-hidden="true"></i></label> {stargazers_count} |&nbsp;
+    <p className="fa-2x" style={s.p}>
+      <label><i className="fa fa-star" aria-hidden="true"></i></label> {stargazers_count}&nbsp;
       <label><i className="fa fa-code-fork" aria-hidden="true"></i></label> {forks_count}
     </p>
   </div>

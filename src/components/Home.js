@@ -55,12 +55,12 @@ const HexFetchDownloads = compose(
 
 function PackageMeta ({children, title, repoName}) {
   return (
-      <div>
+      <div style={s.downloadCard}>
         <h3>{title}</h3>
         <p>
-          <a style={s.link} href={`https://github.com/rkotze/${repoName}`} target="_blank">Github</a> |&nbsp;
-          <a style={s.link} href={`https://npmjs.com/package/${repoName}`} target="_blank">NPM</a> |&nbsp;
-          <Link style={s.link} to={`package/${repoName}`}>Details</Link>
+          <a style={s.link.normal} href={`https://github.com/rkotze/${repoName}`} target="_blank"><i className="fa fa-github fa-2x" aria-hidden="true"></i></a>&nbsp;
+          <a style={s.link.normal} href={`https://npmjs.com/package/${repoName}`} target="_blank"><i className="fa fa-archive fa-2x" aria-hidden="true"></i></a>&nbsp;
+          <Link style={s.link.normal} to={`package/${repoName}`}><i className="fa fa-bar-chart fa-2x" aria-hidden="true"></i></Link>
         </p>
         {children}
       </div>
@@ -72,13 +72,10 @@ function HexDataPointDisplay({success, failure}) {
 
   return <div>
     <p style={s.p}>
-      <strong style={s.downloadNumber}>{day}</strong> yesterday downloads
+      <strong className="fa-2x"><i className="fa fa-arrow-circle-o-down" aria-hidden="true"></i> {week}</strong> 7 days ago
     </p>
     <p style={s.p}>
-      <strong style={s.downloadNumber}>{week}</strong> downloads 7 days ago
-    </p>
-    <p style={s.p}>
-      <strong style={s.downloadNumber}>{all}</strong> downloads for all time
+      <strong className="fa-2x"><i className="fa fa-arrow-circle-o-down" aria-hidden="true"></i> {all}</strong> for all time
     </p>
   </div>
 }
@@ -88,7 +85,7 @@ function DataPointDisplay({success}) {
 
   return <div>
     <p style={s.p}>
-      <strong style={s.downloadNumber}>{downloads}</strong> downloads&nbsp;
+      <strong className="fa-2x"><i className="fa fa-arrow-circle-o-down" aria-hidden="true"></i> {downloads}</strong>&nbsp;
       {moment(start + ' 23:59:59', 'YYYY-MM-DD hh:mm:ss').fromNow()}
     </p>
   </div>
