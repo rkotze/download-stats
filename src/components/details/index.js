@@ -71,7 +71,7 @@ class ChartBar extends Component {
         	x:{
             type : 'timeseries',
             tick: {
-                format: function (downloadDate) { return moment(downloadDate).format('Do MMM'); }
+                format: function (downloadDate) { return moment(downloadDate).format('ddd Do MMM'); }
             }
 	        }
 		    },
