@@ -44,7 +44,6 @@ const FetchDownloads = compose(
   withLoading()
   )(DataPointDisplay);
 
-// investigate cross-origin issues
 const HexFetchDownloads = compose(
   withPropsToPath({
     packageName: ''

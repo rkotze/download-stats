@@ -11,6 +11,7 @@ s.downloadCard = {
     borderRadius: '5px',
     padding: '10px',
     marginRight: '20px',
+    marginBottom: '20px',
     display:'inline-block',
     width: '300px',
     backgroundColor: '#dbd6d6'
